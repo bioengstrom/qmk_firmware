@@ -75,15 +75,23 @@ enum layers {
 #define NAV_QUO     LT(_NAV_BIO, SE_QUOT)
 #define NUM_DQU     LT(_NUM_BIO, SE_DQUO)
 
+
 #define NAV_BIO  MO(_NAV_BIO)
 #define SYM_BIO  MO(_SYM_BIO)
 #define NUM_BIO  MO(_NUM_BIO)
 
-#define SFT_ESC  MT(KC_LSFT, KC_ESC)
+//#define SFT_ESC  MT(KC_LSFT, KC_ESC)
 #define CTL_ESC  MT(MOD_LCTL, KC_ESC)
 #define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
 #define CTL_MINS MT(MOD_RCTL, KC_MINUS)
 #define ALT_ENT  MT(MOD_LALT, KC_ENT)
+
+// Left home row
+#define CTL_A  MT(MOD_LCTL, SE_A)
+#define SFT_S  MT(MOD_LSFT, SE_S)
+#define ALT_D  MT(MOD_LALT, SE_D)
+
+
 
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
@@ -98,19 +106,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |  Tab   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |Ctrl/Esc|   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | '/Nav| "/NUM  |
+ * | LShift |A/Ctrl|S/Shft|D/LAlt|   F  |   G  |                              |   H  |   J  |   K  |   L  | '/Nav| "/NUM  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |      |      |  |      |      |   N  |   M  | ,  ; | . :  | -  _ | +  ?   |
+ * |Ctrl/Esc|   Z  |   X  |   C  |   V  |   B  |      |      |  |      |      |   N  |   M  | ,  ; | . :  | -  _ | +  ?   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Adjust| LGUI | LAlt/| Space| Nav  |  | Del  | Bksp | AltGr| RGUI | Menu |
- *                        |      |      | Enter|      |      |  |      |      |      |      |      |
+ *                        |Adjust| LGUI | LAlt | Space| Enter|  | Del  | Bksp | AltGr| RGUI | Menu |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
 [_QWERTY_BIO] = LAYOUT(
  KC_TAB  , SE_Q ,  SE_W   ,  SE_E  ,   SE_R ,   SE_T ,                                        SE_Y,   SE_U ,  SE_I ,   SE_O ,  SE_P , _______,
- KC_LSFT , SE_A ,  SE_S   ,  SE_D  ,   SE_F ,   SE_G ,                                        SE_H,   SE_J ,  SE_K ,   SE_L ,NAV_QUO, NUM_DQU,
- CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   SE_V ,   SE_B , _______, _______,     KC_RALT ,_______, SE_N,   SE_M ,SE_COMM, SE_DOT ,SE_MINS, SE_PLUS,
-                            _______, KC_LGUI, KC_LALT, KC_SPC , KC_ENT ,      KC_DEL ,KC_BSPC,SYM_BIO, KC_RGUI, KC_APP
+ KC_LSFT , CTL_A,  SFT_S  ,  ALT_D ,   SE_F ,   SE_G ,                                        SE_H,   SE_J ,  SE_K ,   SE_L ,NAV_QUO, NUM_DQU,
+ CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   SE_V ,   SE_B , _______, _______,     KC_APP ,_______, SE_N,   SE_M ,SE_COMM, SE_DOT ,SE_MINS, SE_PLUS,
+                            _______, KC_LGUI, KC_LALT, KC_SPC , KC_ENT ,     KC_DEL ,KC_BSPC,SYM_BIO, KC_RGUI, _______
 ),
 
 /*
@@ -150,9 +158,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   *                        `----------------------------------'  `----------------------------------'
   */
      [_SYM_BIO] = LAYOUT(
-       _______, SE_AT  , SE_PND , SE_DLR , SE_EURO, _______,                                     _______, _______, _______, SE_SLSH, SE_BSLS, SE_PIPE,
-       _______, _______, _______, _______, _______, _______,                                     SE_LBRC, SE_LCBR, SE_LPRN, SE_RPRN, SE_RCBR, SE_RBRC,
-       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SE_LABK, SE_RABK, _______, _______,
+       _______, _______ ,  SE_AT, SE_PND , SE_DLR, SE_EURO,                                      _______, _______, _______, SE_SLSH, SE_BSLS, SE_PIPE,
+       _______, _______, _______, _______, _______, _______,                                     _______, SE_LCBR, SE_LBRC, SE_RBRC, SE_RCBR, _______,
+       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SE_LABK, SE_LPRN, SE_RPRN, SE_RABK, _______,
                                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
      ),
 
@@ -230,7 +238,6 @@ bool oled_task_user(void) {
         oled_write_P(led_usb_state.scroll_lock ? PSTR("SCRLCK ") : PSTR("       "), false);
 
     } else {
-s
         // clang-format off
         static const char PROGMEM kyria_logo[] = {
             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,128,192,224,240,112,120, 56, 60, 28, 30, 14, 14, 14,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7, 14, 14, 14, 30, 28, 60, 56,120,112,240,224,192,128,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
