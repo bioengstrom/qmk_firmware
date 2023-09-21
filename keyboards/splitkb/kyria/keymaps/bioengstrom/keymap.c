@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Base Layer: QWERTY_BIO
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |  Tab   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |        |
+ * |  Tab   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  | "/NUM  |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * | LShift |A/Ctrl|S/Shft|D/LAlt|   F  |   G  |                              |   H  |   J  |   K  |   L  | '/Nav| "/NUM  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
@@ -115,10 +115,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
 [_QWERTY_BIO] = LAYOUT(
- KC_TAB  , SE_Q ,  SE_W   ,  SE_E  ,   SE_R ,   SE_T ,                                        SE_Y,   SE_U ,  SE_I ,   SE_O ,  SE_P , _______,
+ KC_TAB  , SE_Q ,  SE_W   ,  SE_E  ,   SE_R ,   SE_T ,                                        SE_Y,   SE_U ,  SE_I ,   SE_O ,  SE_P , NUM_DQU,
  KC_LSFT , CTL_A,  SFT_S  ,  ALT_D ,   SE_F ,   SE_G ,                                        SE_H,   SE_J ,  SE_K ,   SE_L ,NAV_QUO, NUM_DQU,
- CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   SE_V ,   SE_B , _______, _______,     KC_APP ,_______, SE_N,   SE_M ,SE_COMM, SE_DOT ,SE_MINS, SE_PLUS,
-                            _______, KC_LGUI, KC_LALT, KC_SPC , KC_ENT ,     KC_DEL ,KC_BSPC,SYM_BIO, KC_RGUI, _______
+ CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   SE_V ,   SE_B , _______, _______,     KC_APP ,_______, SE_N,   SE_M ,SE_COMM, SE_DOT ,SE_MINS, NUM_DQU,
+                            _______, KC_LGUI, KC_LALT, KC_SPC , KC_ENT ,     KC_DEL ,KC_BSPC,SYM_BIO, KC_RGUI, SE_PLUS
 ),
 
 /*
