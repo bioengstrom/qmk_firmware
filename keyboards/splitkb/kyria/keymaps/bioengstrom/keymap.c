@@ -14,50 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-// /*
-//  * Layer template
-//  *
-//  * ,-------------------------------------------.                              ,-------------------------------------------.
-//  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
-//  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
-//  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
-//  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
-//  * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
-//  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
-//  *                        |      |      |      |      |      |  |      |      |      |      |      |
-//  *                        |      |      |      |      |      |  |      |      |      |      |      |
-//  *                        `----------------------------------'  `----------------------------------'
-//  */
-//     [_LAYERINDEX] = LAYOUT(
-//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-//       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-//     ),
-
-
-///*
-// * Base Layer: QWERTY
-// *
-// * ,-------------------------------------------.                              ,-------------------------------------------.
-// * |  Tab   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |  Bksp  |
-// * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
-// * |Ctrl/Esc|   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |Ctrl/' "|
-// * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
-// * | LShift |   Z  |   X  |   C  |   V  |   B  | [ {  |CapsLk|  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
-// * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
-// *                        |Adjust| LGUI | LAlt/| Space| Nav  |  | Sym  | Space| AltGr| RGUI | Menu |
-// *                        |      |      | Enter|      |      |  |      |      |      |      |      |
-// *                        `----------------------------------'  `----------------------------------'
-// */
-//    [_QWERTY] = LAYOUT(
-//     KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                        KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
-//     CTL_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
-//     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LBRC,KC_CAPS,     FKEYS  , KC_RBRC, KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
-//                                ADJUST , KC_LGUI, ALT_ENT, KC_SPC , NAV   ,     SYM    , KC_SPC ,KC_RALT, KC_RGUI, KC_APP
-//    ),
-
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
 // produces the key `tap` when tapped (i.e. pressed and released).
@@ -67,19 +23,23 @@
 
 enum layers {
     _QWERTY_BIO = 0,
-    _NAV_BIO,
-    _SYM_BIO,
-    _NUM_BIO,
-    _NUMLOCK_BIO,
-    _FKEYS_BIO,
-    _RGB_BIO
+    _COLEMAK_DH_BIO = 1,
+    _NAV_BIO = 2,
+    _SYM_BIO = 3,
+    _NUM_BIO = 4,
+    _NUMLOCK_BIO = 5,
+    _FKEYS_BIO = 6,
+    _RGB_BIO = 7,
+    _CTRL_LAYER = 8
 };
 
 // Aliases for readability
-#define QWERTY_BIO   DF(_QWERTY_BIO)
+#define QWR_BIO   DF(_QWERTY_BIO)
+#define CMK_BIO   DF(_COLEMAK_DH_BIO)
 
-#define NAV_QUO     LT(_NAV_BIO, SE_QUOT)
-#define NUM_DQU     LT(_NUM_BIO, SE_DQUO)
+#define NAV_QUO  LT(_NAV_BIO, SE_QUOT) // ' on press, navigration on hold for querty
+#define NAV_O  LT(_NAV_BIO, SE_O) // O on press, navigration on hold for querty
+#define NUM_DQU  LT(_NUM_BIO, SE_DQUO) // 2/" on press, nums and åäö on hold, for both querty and colemak dh
 
 #define NAV_BIO  MO(_NAV_BIO)
 #define SYM_BIO  MO(_SYM_BIO)
@@ -90,11 +50,24 @@ enum layers {
 
 #define CTL_ESC  MT(MOD_LCTL, KC_ESC)
 
-// Left home row mods
+// Left home row mods for both querty and colemak dh
 #define CTL_A  MT(MOD_LCTL, SE_A) // A on press, control on hold
+
+// Left home row mods for querty
 #define SFT_S  MT(MOD_LSFT, SE_S) // S on press, shift layer on hold
 #define ALT_D  MT(MOD_LALT, SE_D) // D on press, alt layer on hold
 #define SYM_F  LT(_SYM_BIO, SE_F) // F on press, activate symbol layer on hold
+
+// Left home row mods for colemak dh
+#define SFT_R  MT(MOD_LSFT, SE_R) // R on press, shift layer on hold
+#define ALT_S  MT(MOD_LALT, SE_S) // S on press, alt layer on hold
+#define SYM_T  LT(_SYM_BIO, SE_T) // T on press, activate symbol layer on hold
+
+// todo: fix paste "ctrl + V", as V has now been moved one space to the right
+// todo: this is probably not working,as it should be activating the ctrl layer when ctrl is held, but how do I do that when there's already a modifier on CTL_ESC?
+#define PASTE_MACRO LCTL(SE_V) // Acts as paste (i.e. qwerty ctrl + V)
+#define PST_D LT(_CTRL_LAYER, SE_D) // D on press, paste on ctrl + press
+
 
 
 // clang-format off
@@ -107,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * | LShift |A/Ctrl|S/Shft|D/LAlt|F/Sym |   G  |                              |   H  |   J  |   K  |   L  | '/Nav| "/NUM  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |Ctrl/Esc|   Z  |   X  |   C  |   V  |   B  |Numloc| FKeys|  |   !  |  ?   |   N  |   M  | ,  ; | . :  | -  _ | +  ?   |
+ * |Ctrl/Esc|   Z  |   X  |   C  |   V  |   B  |Numloc| FKeys|  |Colemk|  ?   |   N  |   M  | ,  ; | . :  | -  _ | +  ?   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        | RGB  | LGUI | LAlt | Space| Enter|  | Del  | Bksp | AltGr| RGUI | Menu |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
@@ -116,7 +89,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY_BIO] = LAYOUT(
  KC_TAB  , SE_Q ,  SE_W   ,  SE_E  ,   SE_R ,   SE_T ,                                        SE_Y,   SE_U ,  SE_I ,   SE_O ,  SE_P , SE_ACUT,
  KC_LSFT , CTL_A,  SFT_S  ,  ALT_D ,   SYM_F,   SE_G ,                                        SE_H,   SE_J ,  SE_K ,   SE_L ,NAV_QUO, NUM_DQU,
- CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   SE_V ,   SE_B , NML_BIO, FKY_BIO,     SE_EXLM,SE_QUES, SE_N,   SE_M ,SE_COMM, SE_DOT ,SE_MINS, SE_PLUS,
+ CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   SE_V ,   SE_B , NML_BIO, FKY_BIO,     CMK_BIO,SE_QUES, SE_N,   SE_M ,SE_COMM, SE_DOT ,SE_MINS, SE_PLUS,
+                            RGB_BIO, KC_LGUI, KC_LALT, KC_SPC , KC_ENT ,     KC_DEL ,KC_BSPC,SYM_BIO, KC_RGUI, KC_APP
+),
+
+/*
+ * Base Layer: COLEMAK_DH_BIO
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |  Tab   |   Q  |   W  |   F  |   P  |   B  |                              |   J  |   L  |   U  |   Y  |   '  |   ´    |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * | LShift |A/Ctrl|R/Shft|S/LAlt|T/Sym |   G  |                              |   M  |   N  |   E  |   I  | O/Nav| "/NUM  |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |Ctrl/Esc|   Z  |   X  |   C  |   D  |   V  |Numloc| FKeys|  |QWERTY|  ?   |   K  |   H  | ,  ; | . :  | -  _ | +  ?   |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        | RGB  | LGUI | LAlt | Space| Enter|  | Del  | Bksp | AltGr| RGUI | Menu |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+[_COLEMAK_DH_BIO] = LAYOUT(
+ KC_TAB  , SE_Q ,  SE_W   ,  SE_F  ,   SE_P ,   SE_B ,                                        SE_J,   SE_L ,  SE_U ,   SE_Y ,  SE_P , SE_ACUT,
+ KC_LSFT , CTL_A,  SFT_R  ,  ALT_S ,   SYM_T,   SE_G ,                                        SE_M,   SE_N ,  SE_E ,   SE_I , NAV_O , NUM_DQU,
+ CTL_ESC , SE_Z ,  SE_X   ,  SE_C  ,   PST_D,   SE_V , NML_BIO, FKY_BIO,     QWR_BIO,SE_QUES, SE_K,   SE_H ,SE_COMM, SE_DOT ,SE_MINS, SE_PLUS,
                             RGB_BIO, KC_LGUI, KC_LALT, KC_SPC , KC_ENT ,     KC_DEL ,KC_BSPC,SYM_BIO, KC_RGUI, KC_APP
 ),
 
@@ -241,10 +235,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_RGB_BIO] = LAYOUT(
-      _______, _______, _______, _______ , _______, _______,                                    _______, _______, _______, _______,  _______, _______,
-      _______, _______, _______, _______ , _______, _______,                                    RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI,  RGB_MOD, _______,
+      _______, _______, _______, _______, _______, _______,                                    _______, _______, _______, _______,  _______, _______,
+      _______, _______, _______, _______, _______, _______,                                    RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI,  RGB_MOD, _______,
       _______, _______, _______, _______, _______, _______,_______, _______, _______, _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD, _______,
                                  _______, _______, _______,_______, _______, _______, _______, _______, _______, _______
+    ),
+
+    /*
+     * Ctrl layer
+     *
+     * ,-------------------------------------------.                              ,-------------------------------------------.
+     * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+     * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+     * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+     * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+     * |        |      |      |      |Paste |      |      |      |  |      |      |      |      |      |      |      |        |
+     * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+     *                        |      |      |      |      |      |  |      |      |      |      |      |
+     *                        |      |      |      |      |      |  |      |      |      |      |      |
+     *                        `----------------------------------'  `----------------------------------'
+     */
+    [_CTRL_LAYER] = LAYOUT(
+        _______, _______, _______, _______ ,   _______, _______,                                    _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______ ,   _______, _______,                                    _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______,PASTE_MACRO, _______,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                   _______,    _______, _______,_______, _______, _______, _______, _______, _______, _______
     ),
 };
 
@@ -520,6 +535,9 @@ bool oled_task_user(void) {
             case _QWERTY_BIO:
                 oled_write_P(PSTR("QWERTY\n"), false);
                 break;
+            case _COLEMAK_DH_BIO:
+                oled_write_P(PSTR("COLEMAK DH\n"), false);
+                break;
             case _NAV_BIO:
                 oled_write_P(PSTR("Navigation\n"), false);
                 break;
@@ -538,6 +556,9 @@ bool oled_task_user(void) {
             case _RGB_BIO:
                 oled_write_P(PSTR("RGB\n"), false);
                 break;
+            case _CTRL_LAYER:
+                oled_write_P(PSTR("CTRL Extra\n"), false);
+                break;
             default:
                 oled_write_P(PSTR("Undefined\n"), false);
         }
@@ -545,6 +566,8 @@ bool oled_task_user(void) {
     } else {
 		oled_set_cursor(2,2); // sets position where text will be displayed
         oled_write("Ebb & Flow", false);
+        oled_set_cursor(6,6); // sets position where text will be displayed
+        oled_write("(:", false);
     }
     return false;
 }
@@ -599,3 +622,45 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 DELETE THIS LINE TO UNCOMMENT (2/2) */
 
+// /*
+//  * Layer template
+//  *
+//  * ,-------------------------------------------.                              ,-------------------------------------------.
+//  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+//  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+//  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+//  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+//  * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
+//  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+//  *                        |      |      |      |      |      |  |      |      |      |      |      |
+//  *                        |      |      |      |      |      |  |      |      |      |      |      |
+//  *                        `----------------------------------'  `----------------------------------'
+//  */
+//     [_LAYERINDEX] = LAYOUT(
+//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
+//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
+//       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+//                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+//     ),
+
+
+///*
+// * Base Layer: QWERTY
+// *
+// * ,-------------------------------------------.                              ,-------------------------------------------.
+// * |  Tab   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |  Bksp  |
+// * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+// * |Ctrl/Esc|   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |Ctrl/' "|
+// * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+// * | LShift |   Z  |   X  |   C  |   V  |   B  | [ {  |CapsLk|  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
+// * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+// *                        |Adjust| LGUI | LAlt/| Space| Nav  |  | Sym  | Space| AltGr| RGUI | Menu |
+// *                        |      |      | Enter|      |      |  |      |      |      |      |      |
+// *                        `----------------------------------'  `----------------------------------'
+// */
+//    [_QWERTY] = LAYOUT(
+//     KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                        KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
+//     CTL_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
+//     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LBRC,KC_CAPS,     FKEYS  , KC_RBRC, KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
+//                                ADJUST , KC_LGUI, ALT_ENT, KC_SPC , NAV   ,     SYM    , KC_SPC ,KC_RALT, KC_RGUI, KC_APP
+//    ),
